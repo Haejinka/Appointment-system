@@ -12,6 +12,7 @@ import  NotFound  from './pages/NotFound.jsx';
 import  ProtectedRoute  from './components/ProtectedRoute';
 import Login from './components/Login'; 
 import Signup from './components/SignUp.jsx';
+import ForgotPassword from './components/ForgotPassword.jsx';
 
 
 const router = createBrowserRouter([
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <Signup />, 
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />, 
   }
 ]);
 
