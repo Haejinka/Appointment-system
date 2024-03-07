@@ -17,7 +17,7 @@ const ForgotPassword = () => {
       setMessage('Error sending reset email. Please try again.');
     }
   };
-
+  
   return (
     <div>
       <h2>Forgot Password</h2>

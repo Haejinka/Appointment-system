@@ -13,7 +13,8 @@ import  ProtectedRoute  from './components/ProtectedRoute';
 import Login from './components/Login'; 
 import Signup from './components/SignUp.jsx';
 import ForgotPassword from './components/ForgotPassword.jsx';
-
+import MyComponent from './components/MyComponent.jsx';
+import Navbar_1 from './components/Navbar_1.jsx';
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPassword />, 
+  },
+  {
+    path: '/test',
+    element: <Navbar_1/>,
   }
 ]);
 

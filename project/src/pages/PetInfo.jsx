@@ -1,8 +1,10 @@
 import React from 'react'
-
+import Navbar_1 from '../components/Navbar_1';
 const PetInfo = () => {
   return (
-    <div>PetInfo (Protected)</div>
+    <div>
+      <Navbar_1/>
+      PetInfo (Protected)</div>
   )
 }
 

@@ -1,8 +1,10 @@
 import React from 'react'
-
+import Navbar_1 from '../components/Navbar_1';
 const Services = () => {
   return (
-    <div>Services (Protected)</div>
+    <div>
+      <Navbar_1/>
+      </div>
   )
 }
 

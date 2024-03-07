@@ -1,14 +1,14 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Logout from '../components/SignOut';
+import Navbar_1 from '../components/Navbar_1';
 
 const Dashboard = () => {
     return (
         <div>
-            <Logout/>
-            <Navbar/>
-            <h1>Dashboard (Protected)</h1>
-            <p>Click the links to navigate</p>
+            
+            <Navbar_1/>
+            
       
             
         </div>

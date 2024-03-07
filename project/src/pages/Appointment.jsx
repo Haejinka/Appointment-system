@@ -1,8 +1,10 @@
 import React from 'react'
-
+import Navbar_1 from '../components/Navbar_1';
 const Appointment = () => {
   return (
-    <div>Appointment (Protected)</div>
+    <div>
+      <Navbar_1/>
+      Appointment (Protected)</div>
   )
 }
 
