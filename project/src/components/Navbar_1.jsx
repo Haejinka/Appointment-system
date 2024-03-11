@@ -4,7 +4,7 @@ const Navbar_1 = () => {
   return (
     <aside class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700">
     <a href="#">
-        <img class="w-auto h-6 sm:h-7" src="./assets/logo1.png?v=1" alt=""/>
+        <img class="w-auto h-20 sm:h-9" src="./images/logo1.png"  alt=""/>
     </a>
 
     <div class="relative mt-6">
@@ -115,7 +115,7 @@ const Navbar_1 = () => {
         </nav>
 
         <a href="#" class="flex items-center px-4 -mx-2">
-            <img class="object-cover mx-2 rounded-full h-9 w-9" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar" />
+            <img class="object-cover mx-2 rounded-full h-9 w-9" src="./images/logo1.png" alt="avatar" />
             <span class="mx-2 font-medium text-gray-800 dark:text-gray-200">Admin</span>
         </a>
     </div>

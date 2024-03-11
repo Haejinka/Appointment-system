@@ -15,7 +15,7 @@ import Signup from './components/SignUp.jsx';
 import ForgotPassword from './components/ForgotPassword.jsx';
 import MyComponent from './components/MyComponent.jsx';
 import Navbar_1 from './components/Navbar_1.jsx';
-
+import  Yawa  from './pages/Yawa.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -77,6 +77,10 @@ const router = createBrowserRouter([
   {
     path: '/test',
     element: <Navbar_1/>,
+  },
+  {
+    path: '/test1',
+    element: <Yawa/>,
   }
 ]);
 
