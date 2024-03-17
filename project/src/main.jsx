@@ -16,6 +16,8 @@ import ForgotPassword from './components/ForgotPassword.jsx';
 import MyComponent from './components/MyComponent.jsx';
 import Navbar_1 from './components/Navbar_1.jsx';
 import  Yawa  from './pages/Yawa.jsx';
+import SignOut from './components/SignOut.jsx'
+import Settings from './pages/Settings.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -64,25 +66,49 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />, 
+    element: <Login />,
+    errorElement: <NotFound />,
   },
   {
     path: '/signup',
-    element: <Signup />, 
+    element: <Signup />,
+    errorElement: <NotFound />,
   },
   {
     path: '/forgot-password',
-    element: <ForgotPassword />, 
+    element: <ForgotPassword />,
+    errorElement: <NotFound />,
   },
   {
     path: '/test',
     element: <Navbar_1/>,
+    errorElement: <NotFound />,
   },
   {
     path: '/test1',
     element: <Yawa/>,
-  }
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/signout',
+    element: (
+      <ProtectedRoute>
+        <SignOut />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/settings',
+    element: (
+      <ProtectedRoute>
+        <Settings />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
 ]);
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

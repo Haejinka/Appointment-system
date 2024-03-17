@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar_1 from '../components/Navbar_1';
-
+import SignOut from '../components/SignOut'
 const Dashboard = () => {
     return (
         <div className="flex">
