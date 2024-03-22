@@ -1,25 +1,13 @@
 import React, { useState } from 'react';
 import Navbar_1 from '../components/Navbar_1';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAmm0FVV618ftggSwqMLyL8A1xCewXJoaA",
-    authDomain: "petplace-fc2ea.firebaseapp.com",
-    projectId: "petplace-fc2ea",
-    storageBucket: "petplace-fc2ea.appspot.com",
-    messagingSenderId: "286818333615",
-    appId: "1:286818333615:web:e6bdbfcad3b920ad86b55a",
-    measurementId: "G-93QMXWMB0K"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase();
 const Client = () => {
     const [clients, setClients] = useState([
-        { id: 1, name: "John Doe", numPets: 2, contactNumber: "123-456-7890" },
-        { id: 2, name: "Jane Smith", numPets: 1, contactNumber: "456-789-0123" },
-        { id: 3, name: "Michael Johnson", numPets: 3, contactNumber: "789-012-3456" },
-        { id: 4, name: "Emily Williams", numPets: 0, contactNumber: "012-345-6789" },
-        { id: 5, name: "David Brown", numPets: 2, contactNumber: "345-678-9012" },
+        { id: 1, name: "John Doe", contactNumber: "123-456-7890", numPets: 2, petsListed: ["Dog", "Cat"] },
+        { id: 2, name: "Jane Smith", contactNumber: "987-654-3210", numPets: 1, petsListed: ["Bird"] },
+        { id: 3, name: "Michael Johnson", contactNumber: "456-789-0123", numPets: 3, petsListed: ["Dog", "Fish", "Rabbit"] },
+        { id: 4, name: "Emily Williams", contactNumber: "789-012-3456", numPets: 0, petsListed: [] },
+        { id: 5, name: "David Brown", contactNumber: "321-654-0987", numPets: 2, petsListed: ["Cat", "Snake"] },
         // Add more clients if needed
     ]);
 
@@ -31,6 +19,11 @@ const Client = () => {
     const currentClients = clients.slice(indexOfFirstClient, indexOfLastClient);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const handleRemove = (id) => {
+        const updatedClients = clients.filter(client => client.id !== id);
+        setClients(updatedClients);
+    };
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
@@ -44,16 +37,20 @@ const Client = () => {
                 {/* Horizontal Cards */}
                 <div className="flex flex-col space-y-4">
                     {currentClients.map(client => (
-                        <div key={client.id} className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
-                            <div>
-                                <h3 className="text-xl font-semibold mb-2">{client.name}</h3>
-                                <p className="text-gray-600">Number of Pets: {client.numPets}</p>
-                                <p className="text-gray-600">Contact Number: {client.contactNumber}</p>
+                        <div key={client.id} className="bg-white rounded-lg shadow-md p-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 className="text-xl font-semibold mb-2">{client.name}</h3>
+                                    <p className="text-gray-600">Contact Number: {client.contactNumber}</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-600">Number of Pets: {client.numPets}</p>
+                                    <p className="text-gray-600">Pets Listed: {client.petsListed.join(', ')}</p>
+                                </div>
                             </div>
-                            <div className="space-x-2">
-                                <button className="px-4 py-2 rounded-md bg-blue-500 text-white">View</button>
+                            <div className="flex space-x-2">
                                 <button className="px-4 py-2 rounded-md bg-green-500 text-white">Edit</button>
-                                <button className="px-4 py-2 rounded-md bg-red-500 text-white">Delete</button>
+                                <button className="px-4 py-2 rounded-md bg-red-500 text-white" onClick={() => handleRemove(client.id)}>Remove</button>
                             </div>
                         </div>
                     ))}

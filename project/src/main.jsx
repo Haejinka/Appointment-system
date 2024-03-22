@@ -18,6 +18,7 @@ import Navbar_1 from './components/Navbar_1.jsx';
 import  Yawa  from './pages/Yawa.jsx';
 import SignOut from './components/SignOut.jsx'
 import Settings from './pages/Settings.jsx';
+import Testpage from './pages/Testpage.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -103,6 +104,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Settings />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/test2',
+    element: (
+      <ProtectedRoute>
+        <Testpage />
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
