@@ -14,7 +14,7 @@ const ClientEditModal = ({ client, closeModal }) => {
 
     const handleSubmit = () => {
         const db = getDatabase();
-        const clientRef = ref(db, `clients/${client.id}`); // Assuming client.id exists as the unique identifier
+        const clientRef = ref(db, `clients/${client.id}`); 
         update(clientRef, editedClient)
             .then(() => {
                 console.log("Client updated successfully:", editedClient);

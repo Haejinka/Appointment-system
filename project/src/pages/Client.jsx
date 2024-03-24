@@ -87,7 +87,7 @@ const Client = () => {
                                 <p className="text-gray-600">Contact Number: {client.contactNumber}</p>
                             </div>
                             <div className="space-x-2">
-                                <button className="px-4 py-2 rounded-md bg-blue-500 text-white" onClick={() => handleViewClick(client)}>View</button>
+                                <button onClick={() => handleViewClick(client)} className="px-4 py-2 rounded-md bg-blue-500 text-white">View</button>
                                 <button onClick={() => handleEditClick(client)} className="px-4 py-2 rounded-md bg-green-500 text-white">Edit</button>
                             </div>
                         </div>
@@ -99,7 +99,7 @@ const Client = () => {
                     <button onClick={() => paginate(currentPage + 1)} disabled={currentClients.length < clientsPerPage} className="px-4 py-2 rounded-md bg-blue-500 text-white">Next</button>
                 </div>
             </div>
-            {editingClient && <ClientEditModal client={editingClient} closeModal={closeEditModal} />}
+            {editingClient && <EditModal client={editingClient} closeModal={closeEditModal} />}
             {viewingClient && <ClientViewModal client={viewingClient} closeModal={closeViewModal} appointments={appointments} />}
         </div>
     );
