@@ -129,7 +129,7 @@ const Services = () => {
                         <div key={service.id} className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between mb-4">
                             <div>
                                 <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
-                                <p className="text-gray-600">Price: ${service.price}</p>
+                                <p className="text-gray-600">Price: ₱{service.price}</p>
                                 <p className="text-gray-600">Description: {service.description}</p>
                             </div>
                             <div className="space-x-2">

@@ -1,18 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar_1 from '../components/Navbar_1';
+import { getDatabase, ref, get } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import AppointmentViewModal from '../components/AppointmentViewModal';
 
-const Appointment = () => {
-    const [appointments, setAppointments] = useState([
-        { id: 1, date: "2024-03-15", time: "09:00 AM" },
-        { id: 2, date: "2024-03-16", time: "02:00 PM" },
-        { id: 3, date: "2024-03-17", time: "11:30 AM" },
-        { id: 4, date: "2024-03-18", time: "04:00 PM" },
-        { id: 5, date: "2024-03-19", time: "10:00 AM" },
-        // Add more appointments if needed
-    ]);
+const firebaseConfig = {
+    apiKey: "AIzaSyAmm0FVV618ftggSwqMLyL8A1xCewXJoaA",
+    authDomain: "petplace-fc2ea.firebaseapp.com",
+    projectId: "petplace-fc2ea",
+    storageBucket: "petplace-fc2ea.appspot.com",
+    messagingSenderId: "286818333615",
+    appId: "1:286818333615:web:e6bdbfcad3b920ad86b55a",
+    measurementId: "G-93QMXWMB0K"
+};
 
+const app = initializeApp(firebaseConfig);
+const db = getDatabase();
+
+const Appointment = ({ clients, pets, services }) => {
+    const [appointments, setAppointments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [appointmentsPerPage] = useState(5);
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
+
+    useEffect(() => {
+        // Fetch appointments from Firebase Realtime Database
+        const fetchAppointments = async () => {
+            try {
+                const appointmentsRef = ref(db, 'appointments');
+                const snapshot = await get(appointmentsRef);
+                if (snapshot.exists()) {
+                    const appointmentData = Object.values(snapshot.val());
+                    setAppointments(appointmentData);
+                }
+            } catch (error) {
+                console.error('Error fetching appointments: ', error);
+            }
+        };
+        fetchAppointments();
+    }, [db]);
 
     const indexOfLastAppointment = currentPage * appointmentsPerPage;
     const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
@@ -21,13 +47,21 @@ const Appointment = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const handleConfirm = (id) => {
-        // Implement logic to confirm appointment with id
         console.log(`Confirm appointment with ID ${id}`);
+        // Implement logic to confirm appointment with id
     };
 
     const handleCancel = (id) => {
-        // Implement logic to cancel appointment with id
         console.log(`Cancel appointment with ID ${id}`);
+        // Implement logic to cancel appointment with id
+    };
+
+    const handleViewDetails = (appointment) => {
+        setSelectedAppointment(appointment);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedAppointment(null);
     };
 
     return (
@@ -49,7 +83,7 @@ const Appointment = () => {
                             </div>
                             <div className="space-x-2">
                                 {/* View Details Button */}
-                                <button className="px-4 py-2 rounded-md bg-blue-500 text-white">View Details</button>
+                                <button onClick={() => handleViewDetails(appointment)} className="px-4 py-2 rounded-md bg-blue-500 text-white">View Details</button>
                                 {/* Confirm Button */}
                                 <button onClick={() => handleConfirm(appointment.id)} className="px-4 py-2 rounded-md bg-green-500 text-white">Confirm</button>
                                 {/* Cancel Button */}
@@ -65,6 +99,16 @@ const Appointment = () => {
                     <button onClick={() => paginate(currentPage + 1)} disabled={currentAppointments.length < appointmentsPerPage} className="px-4 py-2 rounded-md bg-blue-500 text-white">Next</button>
                 </div>
             </div>
+            {/* Appointment View Modal */}
+            {selectedAppointment && (
+                <AppointmentViewModal
+                    appointment={selectedAppointment}
+                    clients={clients}
+                    pets={pets}
+                    services={services}
+                    onClose={handleCloseModal}
+                />
+            )}
         </div>
     );
 }

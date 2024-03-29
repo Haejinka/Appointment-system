@@ -28,13 +28,32 @@ const Client = () => {
 
     useEffect(() => {
         const clientsRef = ref(db, 'clients');
-        onValue(clientsRef, (snapshot) => {
-            const data = snapshot.val();
-            const clientList = [];
-            for (let id in data) {
-                clientList.push({ id, ...data[id] });
+        const petsRef = ref(db, 'pets');
+
+        onValue(petsRef, (snapshot) => {
+            const petsData = snapshot.val();
+            const petsCountPerClient = {};
+            for (let petId in petsData) {
+                const pet = petsData[petId];
+                if (petsCountPerClient[pet.ownerID]) {
+                    petsCountPerClient[pet.ownerID]++;
+                } else {
+                    petsCountPerClient[pet.ownerID] = 1;
+                }
             }
-            setClients(clientList);
+
+            onValue(clientsRef, (snapshot) => {
+                const clientsData = snapshot.val();
+                const clientList = [];
+                for (let clientId in clientsData) {
+                    clientList.push({
+                        id: clientId,
+                        ...clientsData[clientId],
+                        numberOfPets: petsCountPerClient[clientId] || 0
+                    });
+                }
+                setClients(clientList);
+            });
         });
 
         const appointmentsRef = ref(db, 'appointments');

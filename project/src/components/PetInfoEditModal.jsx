@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
 const PetInfoEditModal = ({ pet, closeModal, savePetInfo }) => {
-    // State to hold editable values
-    const [editedPet, setEditedPet] = useState({ ...pet });
+    const [editedPet, setEditedPet] = useState({ ...pet }); 
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedPet((prevState) => ({
             ...prevState,
-            [name]: value,
-        }));
+            [name]: value 
+        })); // Simplified change handling
     };
 
     const handleSubmit = (e) => {
@@ -17,6 +17,7 @@ const PetInfoEditModal = ({ pet, closeModal, savePetInfo }) => {
         savePetInfo(editedPet);
         closeModal();
     };
+
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">

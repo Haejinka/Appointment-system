@@ -33,10 +33,7 @@ const ClientEditModal = ({ client, closeModal }) => {
                     <label className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
                     <input type="text" name="name" value={editedClient.name} onChange={handleChange} className="border border-gray-400 rounded-md px-3 py-2 w-full" />
                 </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Number of Pets:</label>
-                    <input type="number" name="numberOfPets" value={editedClient.numberOfPets} onChange={handleChange} className="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                </div>
+                
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">Contact Number:</label>
                     <input type="text" name="contactNumber" value={editedClient.contactNumber} onChange={handleChange} className="border border-gray-400 rounded-md px-3 py-2 w-full" />
