@@ -19,6 +19,8 @@ import  Yawa  from './pages/Yawa.jsx';
 import SignOut from './components/SignOut.jsx'
 import Settings from './pages/Settings.jsx';
 import Testpage from './pages/Testpage.jsx';
+import Tickets from './pages/Tickets.jsx';
+import History from './pages/History.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -113,6 +115,24 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Testpage />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/tickets',
+    element: (
+      <ProtectedRoute>
+        <Tickets />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/history',
+    element: (
+      <ProtectedRoute>
+        <History />
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,

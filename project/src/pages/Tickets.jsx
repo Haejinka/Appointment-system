@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar_1 from '../components/Navbar_1';
-import { getDatabase, ref, get, update } from 'firebase/database';
+import { getDatabase, ref, get, update, onValue } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 import AppointmentViewModal from '../components/AppointmentViewModal';
 
@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
-const Appointment = ({ clients, pets, services }) => {
+const Tickets = ({ clients, pets, services }) => {
     const [appointments, setAppointments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [appointmentsPerPage] = useState(5);
@@ -29,12 +29,22 @@ const Appointment = ({ clients, pets, services }) => {
                 const snapshot = await get(appointmentsRef);
                 if (snapshot.exists()) {
                     const appointmentData = Object.entries(snapshot.val()).map(([key, value]) => ({ ...value, id: key }));
-                    setAppointments(appointmentData);
+                    setAppointments(appointmentData.filter(appointment => appointment.status === 'confirmed'));
                 }
             } catch (error) {
                 console.error('Error fetching appointments: ', error);
             }
         };
+
+        // Listen for changes in appointments and update state accordingly
+        const appointmentsRef = ref(db, 'appointments');
+        onValue(appointmentsRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const appointmentData = Object.entries(snapshot.val()).map(([key, value]) => ({ ...value, id: key }));
+                setAppointments(appointmentData.filter(appointment => appointment.status === 'confirmed'));
+            }
+        });
+
         fetchAppointments();
     }, [db]);
 
@@ -44,50 +54,19 @@ const Appointment = ({ clients, pets, services }) => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleConfirm = async (id) => {
-        console.log(`Confirm appointment with ID ${id}`);
+    const handleComplete = async (id) => {
+        console.log(`Complete appointment with ID ${id}`);
         try {
             await update(ref(db, `appointments/${id}`), {
-                status: 'confirmed'
+                status: 'completed'
             });
-            console.log('Appointment confirmed successfully');
-            // Update the local state to reflect the change
-            setAppointments(prevAppointments => {
-                return prevAppointments.map(appointment => {
-                    if (appointment.id === id) {
-                        return { ...appointment, status: 'confirmed' };
-                    } else {
-                        return appointment;
-                    }
-                });
-            });
+            console.log('Appointment completed successfully');
+            // Remove the completed appointment from local state
+            setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment.id !== id));
         } catch (error) {
-            console.error('Error confirming appointment: ', error);
+            console.error('Error completing appointment: ', error);
         }
     };
-    
-    const handleCancel = async (id) => {
-        console.log(`Cancel appointment with ID ${id}`);
-        try {
-            await update(ref(db, `appointments/${id}`), {
-                status: 'cancelled'
-            });
-            console.log('Appointment cancelled successfully');
-            // Update the local state to reflect the change
-            setAppointments(prevAppointments => {
-                return prevAppointments.map(appointment => {
-                    if (appointment.id === id) {
-                        return { ...appointment, status: 'cancelled' };
-                    } else {
-                        return appointment;
-                    }
-                });
-            });
-        } catch (error) {
-            console.error('Error cancelling appointment: ', error);
-        }
-    };
-    
 
     const handleViewDetails = (appointment) => {
         setSelectedAppointment(appointment);
@@ -101,10 +80,10 @@ const Appointment = ({ clients, pets, services }) => {
         <div className="flex flex-col md:flex-row h-screen">
             <Navbar_1 />
             <div className="flex-1 p-8 overflow-y-auto">
-                {/* Indicator for Appointment Panel */}
+                {/* Indicator for Ticket Panel */}
                 <div className="mb-8">
-                    <h2 className="text-2xl font-semibold">Appointment Panel</h2>
-                    <p className="text-gray-600">You are viewing the Appointment Panel</p>
+                    <h2 className="text-2xl font-semibold">Ticket Panel</h2>
+                    <p className="text-gray-600">You are viewing the Ticket Panel</p>
                 </div>
                 {/* Horizontal Cards */}
                 <div className="flex flex-col space-y-4">
@@ -117,10 +96,8 @@ const Appointment = ({ clients, pets, services }) => {
                             <div className="space-x-2">
                                 {/* View Details Button */}
                                 <button onClick={() => handleViewDetails(appointment)} className="px-4 py-2 rounded-md bg-blue-500 text-white">View Details</button>
-                                {/* Confirm Button */}
-                                <button onClick={() => handleConfirm(appointment.id)} className="px-4 py-2 rounded-md bg-green-500 text-white">Confirm</button>
-                                {/* Cancel Button */}
-                                <button onClick={() => handleCancel(appointment.id)} className="px-4 py-2 rounded-md bg-red-500 text-white">Cancel</button>
+                                {/* Complete Button */}
+                                {appointment.status === 'confirmed' && <button onClick={() => handleComplete(appointment.id)} className="px-4 py-2 rounded-md bg-yellow-500 text-white">Complete</button>}
                             </div>
                         </div>
                     ))}
@@ -132,7 +109,7 @@ const Appointment = ({ clients, pets, services }) => {
                     <button onClick={() => paginate(currentPage + 1)} disabled={currentAppointments.length < appointmentsPerPage} className="px-4 py-2 rounded-md bg-blue-500 text-white">Next</button>
                 </div>
             </div>
-            {/* Appointment View Modal */}
+            {/* Ticket View Modal */}
             {selectedAppointment && (
                 <AppointmentViewModal
                     appointment={selectedAppointment}
@@ -146,4 +123,4 @@ const Appointment = ({ clients, pets, services }) => {
     );
 }
 
-export default Appointment;
+export default Tickets;

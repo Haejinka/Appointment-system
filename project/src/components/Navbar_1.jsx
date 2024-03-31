@@ -3,20 +3,9 @@ import { NavLink } from 'react-router-dom';
 const Navbar_1 = () => {
   return (
     <aside class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700">
-    <a href="#">
-        <img class="w-auto h-20 sm:h-9" src="./images/logo1.png"  alt=""/>
-    </a>
+    
 
-    <div class="relative mt-6">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21L15 15M1 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-        </span>
-
-        <input type="text" class="w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Search" />
-    </div>
-
+    
     <div class="flex flex-col justify-between flex-1 mt-6">
         <nav>
             <NavLink to="/" className={({ isActive }) => 
@@ -95,14 +84,36 @@ const Navbar_1 = () => {
             
 
             <hr class="my-6 border-gray-200 dark:border-gray-600" />
+            
 
-            <a class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" href="#">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <NavLink to="/tickets" className={({ isActive }) => 
+              `flex items-center px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-80
+                ${isActive 
+                    ? 'bg-gray-100 dark:bg-gray-800 text-white '  // Active styles
+                    : 'text-gray-700 dark:text-gray-200 ' // Default styles 
+                }` 
+          }>
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <span class="mx-4 font-medium">Tickets</span>
+    </NavLink>
+    <NavLink to="/history" className={({ isActive }) => 
+    `flex items-center px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-800
+        ${isActive 
+            ? 'bg-gray-100 dark:bg-gray-800 text-white '  // Active styles
+            : 'text-gray-700 dark:text-gray-200 ' // Default styles 
+        }` 
+}>
+   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="currentColor"/>
+    <path d="M12 8V12L14 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+</svg>
 
-                <span class="mx-4 font-medium">Tickets</span>
-            </a>
+    <span class="mx-4 font-medium">History</span>
+</NavLink>
+
+
 
             <NavLink to="/settings" className={({ isActive }) => 
             `flex items-center px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-80
