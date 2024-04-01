@@ -25,12 +25,14 @@ const Client = () => {
     const [clientsPerPage] = useState(5);
     const [editingClient, setEditingClient] = useState(null);
     const [viewingClient, setViewingClient] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isEmpty, setIsEmpty] = useState(false);
 
     useEffect(() => {
         const clientsRef = ref(db, 'clients');
         const petsRef = ref(db, 'pets');
 
-        onValue(petsRef, (snapshot) => {
+        const unsubscribe = onValue(petsRef, (snapshot) => {
             const petsData = snapshot.val();
             const petsCountPerClient = {};
             for (let petId in petsData) {
@@ -53,6 +55,10 @@ const Client = () => {
                     });
                 }
                 setClients(clientList);
+                setIsLoading(false);
+                if (clientList.length === 0) {
+                    setIsEmpty(true);
+                }
             });
         });
 
@@ -65,6 +71,10 @@ const Client = () => {
             }
             setAppointments(appointmentList);
         });
+
+        return () => {
+            unsubscribe(); // Cleanup the listener
+        };
     }, []);
 
     const indexOfLastClient = currentPage * clientsPerPage;
@@ -93,30 +103,41 @@ const Client = () => {
         <div className="flex flex-col md:flex-row h-screen">
             <Navbar_1 />
             <div className="flex-1 p-8 overflow-y-auto">
-                <div className="mb-8">
-                    <h2 className="text-2xl font-semibold">Client Panel</h2>
-                    <p className="text-gray-600">You are viewing the Client Panel</p>
-                </div>
-                <div className="flex flex-col space-y-4">
-                    {currentClients.map(client => (
-                        <div key={client.id} className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
-                            <div>
-                                <h3 className="text-xl font-semibold mb-2">{client.name}</h3>
-                                <p className="text-gray-600">Number of Pets: {client.numberOfPets}</p>
-                                <p className="text-gray-600">Contact Number: {client.contactNumber}</p>
-                            </div>
-                            <div className="space-x-2">
-                                <button onClick={() => handleViewClick(client)} className="px-4 py-2 rounded-md bg-blue-500 text-white">View</button>
-                                <button onClick={() => handleEditClick(client)} className="px-4 py-2 rounded-md bg-green-500 text-white">Edit</button>
-                            </div>
+                {isLoading ? (
+                    // Loading state
+                    <div className="text-center py-5">Loading...</div>
+                ) : isEmpty ? (
+                    // Empty state
+                    <div className="text-center py-5">No client information available.</div>
+                ) : (
+                    // Data loaded
+                    <div>
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-semibold">Client Panel</h2>
+                            <p className="text-gray-600">You are viewing the Client Panel</p>
                         </div>
-                    ))}
-                </div>
-                <div className="mt-8 flex justify-between items-center">
-                    <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="px-4 py-2 rounded-md bg-blue-500 text-white">Previous</button>
-                    <span className="text-gray-600">Page {currentPage} of {Math.ceil(clients.length / clientsPerPage)}</span>
-                    <button onClick={() => paginate(currentPage + 1)} disabled={currentClients.length < clientsPerPage} className="px-4 py-2 rounded-md bg-blue-500 text-white">Next</button>
-                </div>
+                        <div className="flex flex-col space-y-4">
+                            {currentClients.map(client => (
+                                <div key={client.id} className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
+                                    <div>
+                                        <h3 className="text-xl font-semibold mb-2">{client.name}</h3>
+                                        <p className="text-gray-600">Number of Pets: {client.numberOfPets}</p>
+                                        <p className="text-gray-600">Contact Number: {client.contactNumber}</p>
+                                    </div>
+                                    <div className="space-x-2">
+                                        <button onClick={() => handleViewClick(client)} className="px-4 py-2 rounded-md bg-blue-500 text-white">View</button>
+                                        <button onClick={() => handleEditClick(client)} className="px-4 py-2 rounded-md bg-green-500 text-white">Edit</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="mt-8 flex justify-between items-center">
+                            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="px-4 py-2 rounded-md bg-blue-500 text-white">Previous</button>
+                            <span className="text-gray-600">Page {currentPage} of {Math.ceil(clients.length / clientsPerPage)}</span>
+                            <button onClick={() => paginate(currentPage + 1)} disabled={currentClients.length < clientsPerPage} className="px-4 py-2 rounded-md bg-blue-500 text-white">Next</button>
+                        </div>
+                    </div>
+                )}
             </div>
             {editingClient && <EditModal client={editingClient} closeModal={closeEditModal} />}
             {viewingClient && <ClientViewModal client={viewingClient} closeModal={closeViewModal} appointments={appointments} />}
