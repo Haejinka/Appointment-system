@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
 
 const AppointmentViewModal = ({ appointment, onClose }) => {
-    const { clientID, date, petID, serviceID, status, time } = appointment;
+    const { clientID, date, petId, serviceID, status, time } = appointment; // Updated petId to petID
     const [client, setClient] = useState(null);
     const [pet, setPet] = useState(null);
     const [service, setService] = useState(null);
@@ -19,7 +19,7 @@ const AppointmentViewModal = ({ appointment, onClose }) => {
                 }
 
                 // Fetch pet data
-                const petRef = ref(db, `pets/${petID}`);
+                const petRef = ref(db, `pets/${petId}`); // Updated to use petId
                 const petSnapshot = await get(petRef);
                 if (petSnapshot.exists()) {
                     setPet(petSnapshot.val());
@@ -37,7 +37,7 @@ const AppointmentViewModal = ({ appointment, onClose }) => {
         };
 
         fetchData();
-    }, [clientID, petID, serviceID]);
+    }, [clientID, petId, serviceID]); // Updated to use petId
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
