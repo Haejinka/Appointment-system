@@ -21,6 +21,7 @@ import Settings from './pages/Settings.jsx';
 import Testpage from './pages/Testpage.jsx';
 import Tickets from './pages/Tickets.jsx';
 import History from './pages/History.jsx';
+import Schedule from './pages/Schedule.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -133,6 +134,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <History />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/schedule',
+    element: (
+      <ProtectedRoute>
+        <Schedule />
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,

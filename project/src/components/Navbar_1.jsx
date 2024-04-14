@@ -53,6 +53,7 @@ const Navbar_1 = () => {
                 <span class="mx-4 font-medium">Pet Info</span>
             </NavLink>
 
+
             <NavLink to="/appointment" className={({ isActive }) => 
           `flex items-center px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-80
           ${isActive 
@@ -74,6 +75,7 @@ const Navbar_1 = () => {
             : 'text-gray-700 dark:text-gray-200 ' // Default styles 
           }` 
        }>
+        
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
             </svg>
@@ -81,6 +83,20 @@ const Navbar_1 = () => {
 
                 <span class="mx-4 font-medium">Services</span>
             </NavLink>
+            <NavLink to="/schedule" className={({ isActive }) => 
+            `flex items-center px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-800
+            ${isActive 
+                ? 'bg-gray-100 dark:bg-gray-800 text-white '  // Active styles
+                : 'text-gray-700 dark:text-gray-200 ' // Default styles 
+            }` 
+        }>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5h18M3 6v13.5a1.5 1.5 0 0 0 1.5 1.5h15a1.5 1.5 0 0 0 1.5-1.5V6m-18 0a1.5 1.5 0 0 0-1.5 1.5H21a1.5 1.5 0 0 0-1.5-1.5M6 3v3M18 3v3M3 12h18"/>
+            </svg>
+            <span class="mx-4 font-medium">Schedule</span>
+            </NavLink>
+
+
             
 
             <hr class="my-6 border-gray-200 dark:border-gray-600" />
@@ -93,6 +109,7 @@ const Navbar_1 = () => {
                     : 'text-gray-700 dark:text-gray-200 ' // Default styles 
                 }` 
           }>
+            
     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
