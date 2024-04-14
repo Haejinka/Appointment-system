@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
 
 const AppointmentViewModal = ({ appointment, onClose }) => {
-    const { clientID, date, petId, serviceID, status, time } = appointment; // Updated petId to petID
+    const { clientID, date, petId, serviceID, status, time, notes } = appointment; // Updated petId to petID
     const [client, setClient] = useState(null);
     const [pet, setPet] = useState(null);
     const [service, setService] = useState(null);
@@ -70,6 +70,10 @@ const AppointmentViewModal = ({ appointment, onClose }) => {
                 <div className="mb-4">
                     <label className="block text-sm font-bold text-gray-700 mb-2">Status:</label>
                     <p className="text-gray-800">{status}</p>
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Notes:</label>
+                    <p className="text-gray-800">{notes || 'No available notes'}</p>
                 </div>
                 <div className="flex justify-end">
                     <button onClick={onClose} className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:bg-blue-600 transition duration-200 ease-in-out">Close</button>

@@ -75,8 +75,11 @@ const Appointment = ({ clients, pets, services }) => {
     const handleCancel = async (id) => {
         console.log(`Cancel appointment with ID ${id}`);
         try {
+            const remark = prompt('Please provide a remark for cancellation:');
+            if (remark === null) return; // User canceled the prompt
             await update(ref(db, `appointments/${id}`), {
-                status: 'cancelled'
+                status: 'cancelled',
+                notes: remark // Add the remark as notes
             });
             console.log('Appointment cancelled successfully');
             // Remove the appointment from local state since its status is no longer pending
@@ -87,6 +90,7 @@ const Appointment = ({ clients, pets, services }) => {
             console.error('Error cancelling appointment: ', error);
         }
     };
+    
     
 
     const handleViewDetails = (appointment) => {

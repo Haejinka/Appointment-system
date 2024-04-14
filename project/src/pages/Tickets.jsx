@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar_1 from '../components/Navbar_1';
-import { getDatabase, ref, get, update, onValue } from 'firebase/database';
+import { getDatabase, ref, update, onValue } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 import AppointmentViewModal from '../components/AppointmentViewModal';
+import AddNotesModal from '../components/AddNotesModal'; // Import the modal component
 
 const firebaseConfig = {
     apiKey: "AIzaSyAmm0FVV618ftggSwqMLyL8A1xCewXJoaA",
@@ -13,14 +14,16 @@ const firebaseConfig = {
     appId: "1:286818333615:web:e6bdbfcad3b920ad86b55a",
     measurementId: "G-93QMXWMB0K"
 };
+
 const app = initializeApp(firebaseConfig);
-const db = getDatabase();
+const db = getDatabase(app);
 
 const Tickets = ({ clients, pets, services }) => {
     const [appointments, setAppointments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [appointmentsPerPage] = useState(5);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [showAddNotesModal, setShowAddNotesModal] = useState(false); // State to control modal visibility
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -54,26 +57,31 @@ const Tickets = ({ clients, pets, services }) => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleComplete = async (id) => {
-        console.log(`Complete appointment with ID ${id}`);
-        try {
-            await update(ref(db, `appointments/${id}`), {
-                status: 'completed'
-            });
-            console.log('Appointment completed successfully');
-            // Remove the completed appointment from local state
-            setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment.id !== id));
-        } catch (error) {
-            console.error('Error completing appointment: ', error);
-        }
-    };
-
     const handleViewDetails = (appointment) => {
         setSelectedAppointment(appointment);
     };
 
-    const handleCloseModal = () => {
-        setSelectedAppointment(null);
+    const handleCompleteAppointment = (appointment) => {
+        setSelectedAppointment(appointment);
+        setShowAddNotesModal(true);
+    };
+
+    const handleAddNotesModalClose = () => {
+        setShowAddNotesModal(false);
+    };
+
+    const handleCompleteAppointmentWithNotes = async (notes) => {
+        try {
+            await update(ref(db, `appointments/${selectedAppointment.id}`), {
+                status: 'completed',
+                notes: notes
+            });
+            console.log('Appointment completed successfully');
+            setAppointments(prevAppointments => prevAppointments.filter(app => app.id !== selectedAppointment.id));
+            setShowAddNotesModal(false); // Hide the add notes modal
+        } catch (error) {
+            console.error('Error completing appointment: ', error);
+        }
     };
 
     return (
@@ -97,7 +105,7 @@ const Tickets = ({ clients, pets, services }) => {
                                 {/* View Details Button */}
                                 <button onClick={() => handleViewDetails(appointment)} className="px-4 py-2 rounded-md bg-blue-500 text-white">View Details</button>
                                 {/* Complete Button */}
-                                {appointment.status === 'confirmed' && <button onClick={() => handleComplete(appointment.id)} className="px-4 py-2 rounded-md bg-yellow-500 text-white">Complete</button>}
+                                <button onClick={() => handleCompleteAppointment(appointment)} className="px-4 py-2 rounded-md bg-yellow-500 text-white">Complete</button>
                             </div>
                         </div>
                     ))}
@@ -110,13 +118,21 @@ const Tickets = ({ clients, pets, services }) => {
                 </div>
             </div>
             {/* Ticket View Modal */}
-            {selectedAppointment && (
+            {!showAddNotesModal && selectedAppointment && (
                 <AppointmentViewModal
                     appointment={selectedAppointment}
                     clients={clients}
                     pets={pets}
                     services={services}
-                    onClose={handleCloseModal}
+                    onClose={() => setSelectedAppointment(null)}
+                />
+            )}
+            {/* Add Notes Modal */}
+            {showAddNotesModal && selectedAppointment && (
+                <AddNotesModal
+                    appointment={selectedAppointment}
+                    onClose={handleAddNotesModalClose}
+                    onComplete={handleCompleteAppointmentWithNotes}
                 />
             )}
         </div>
